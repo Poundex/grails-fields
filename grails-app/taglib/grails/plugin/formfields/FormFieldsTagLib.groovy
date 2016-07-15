@@ -190,7 +190,7 @@ class FormFieldsTagLib implements GrailsApplicationAware {
          if (attrs.containsKey('properties')) {
             properties = attrs.remove('properties').collect { domainClass.getPropertyByName(it) }
          } else {
-            properties = domainClass.persistentProperties.sort(new DomainClassPropertyComparator(domainClass))
+            properties = resolvePersistentProperties(domainClass, attrs)
             if (properties.size() > 6) {
                 properties = properties[0..6]
             }
