@@ -263,8 +263,9 @@ class FormFieldsTagLib implements GrailsApplicationAware {
 		if (property == null) {
 			GrailsDomainClass domainClass = resolveDomainClass(bean)
 			if (domainClass) {
-				def properties = domainClass.persistentProperties.sort(new DomainClassPropertyComparator(domainClass))
+				def properties = resolvePersistentProperties(domainClass, attrs)
 				out << render(template: "/templates/_fields/list", model: [domainClass: domainClass, domainProperties: properties]) { prop ->
+					if( ! properties.contains(prop)) return
 					def propertyAccessor = resolveProperty(bean, prop.name)
 					def model = buildModel(propertyAccessor, attrs)
 					out << raw(renderDisplayWidget(propertyAccessor, model, attrs,templatesFolder))
